@@ -1,0 +1,14 @@
+================================================= test session starts =================================================
+platform win32 -- Python 3.13.3, pytest-8.4.1, pluggy-1.6.0 -- C:\Proyectos_python\Prueba_tecnica_ing_datos\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Proyectos_python\Prueba_tecnica_ing_datos
+collected 5 items
+
+tests/test_data_quality.py::test_no_duplicate_pacientes PASSED                                                   [ 20%]
+tests/test_data_quality.py::test_no_duplicate_citas PASSED                                                       [ 40%]
+tests/test_data_quality.py::test_id_paciente_not_null PASSED                                                     [ 60%]
+tests/test_data_quality.py::test_citas_referential_integrity PASSED                                              [ 80%]
+tests/test_data_quality.py::test_required_columns PASSED                                                         [100%]
+
+================================================== 5 passed in 1.22s ==================================================
+(.venv) PS C:\Proyectos_python\Prueba_tecnica_ing_datos>
