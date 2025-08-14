@@ -31,13 +31,9 @@ Python 3.10+
 Libraries:
 
 pandas
-
 numpy
-
 python-dateutil
-
 openpyxl
-
 pyarrow
 
 Installation:
@@ -52,11 +48,8 @@ Save dataset_hospital.json in data/raw/.
 2️⃣ Data exploration
 python src/explore.py
 
-
 Outputs:
-
 Intermediate CSV files (pacientes_raw.csv, citas_medicas_raw.csv) in data/interim/
-
 exploration_report.md in reports/
 
 3️⃣ Data cleaning and validation
@@ -64,9 +57,7 @@ python src/clean.py
 
 
 Outputs:
-
 Clean CSV files in data/clean/
-
 cleaning_summary.md and orphan_citas.csv in reports/
 
 4️⃣ Export to Excel
@@ -74,7 +65,6 @@ python src/export_excel.py
 
 
 Output:
-
 hospital_dataset_clean.xlsx in data/
 
 5️⃣ Data Warehouse load simulation
@@ -82,79 +72,52 @@ python src/load_to_dw.py
 
 
 Loads cleaned data into a SQLite target structure with:
-
 dim_pacientes
-
 fact_citas
 
 🧹 Cleaning Process Overview
 
 Detected issues:
-
 Patients: duplicates by id_paciente, null values in edad, sexo, email, telefono, ciudad.
-
 Appointments: null values in fecha_cita, especialidad, medico, costo, estado_cita; 190 orphan records (nonexistent patient IDs).
 
 Actions taken:
-
 Standardized date format (YYYY-MM-DD)
-
 Recalculated age from fecha_nacimiento
-
 Normalized gender (M / F)
-
 Removed duplicates (id_paciente)
-
 Referential integrity check (orphan appointments logged in orphan_citas.csv)
 
 📈 Data Quality Indicators
 Table	Initial rows	Final rows	Initial null values	Final null values	Initial duplicates	Final duplicates
 pacientes	5,010	5,000	7,671	6,021	10	0
 citas_medicas	9,961	9,961	11,250	11,250	0	0
+
 ✅ Automated Validation
-
 Tests executed using pytest (tests/test_data_quality.py):
-
-No duplicate IDs in patients or appointments
-
-All patient IDs are valid
-
-Referential integrity between appointments and patients
-
-All required columns are present
-
+  No duplicate IDs in patients or appointments
+  All patient IDs are valid
+  Referential integrity between appointments and patients
+  All required columns are present
 Result: All tests passed successfully.
 
 📦 Deliverables
-
 Data:
-
 data/raw/dataset_hospital.json → Original source
-
 data/interim/ → Intermediate data
-
 data/clean/ → Cleaned data
-
 data/hospital_dataset_clean.xlsx → Final consolidated dataset
 
 Reports:
-
 exploration_report.md
-
 cleaning_summary.md
-
 orphan_citas.csv
-
 final_report.md (this technical document)
-
 Scripts: explore.py, clean.py, export_excel.py, compare.py, load_to_dw.py
 
 💡 Recommendations for Improvement
 
 Fill in missing key fields from external sources.
-
 Review and correct orphan appointments.
-
 Standardize specialty and physician names.
-
 Define business rules to impute costo and estado_cita.
