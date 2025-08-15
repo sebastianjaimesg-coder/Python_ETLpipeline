@@ -1,9 +1,9 @@
 📊 Technical Test – Data Engineer
 
-This project is the solution to a technical test for the role of Data Engineer, with the goal of analyzing, cleaning, validating, and exporting a hospital dataset originally in JSON format.
+This project is a example of a ETL pipeline, with the goal of analyzing, cleaning, validating, and exporting a hospital dataset originally in JSON format.
 
 📂 Project Structure
-prueba_tecnica_ing_datos/
+ETL_pipeline/
 │
 ├─ data/
 │   ├─ raw/        # Original data (JSON)
