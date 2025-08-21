@@ -13,7 +13,7 @@ OUTPUT_INTERIM.mkdir(parents=True, exist_ok=True)
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 # ==========================
 
-# Claves candidatas para detectar tablas
+# Candidate keys for detecting tables
 PATIENT_KEYS = ["pacientes", "patients"]
 APPOINT_KEYS = ["citas_medicas", "citas", "appointments"]
 
@@ -21,7 +21,7 @@ def _to_df(obj) -> pd.DataFrame:
     if isinstance(obj, list):
         return pd.DataFrame(obj)
     if isinstance(obj, dict):
-        # Si viene anidado, intenta normalizar
+        # If it is nested, try to normalize it.
         return pd.json_normalize(obj)
     return pd.DataFrame()
 
@@ -33,7 +33,7 @@ def load_tables():
     citas_df = pd.DataFrame()
 
     if isinstance(data, dict):
-        # Busca por claves conocidas
+        # Search by known keywords
         for k in PATIENT_KEYS:
             if k in data:
                 pacientes_df = _to_df(data[k])
@@ -43,7 +43,7 @@ def load_tables():
                 citas_df = _to_df(data[k])
                 break
 
-        # Si no encontró, toma las primeras dos listas que parezcan tablas
+        # If you didn't find any, take the first two lists that look like tables.
         if pacientes_df.empty or citas_df.empty:
             for v in data.values():
                 if isinstance(v, list) and v and isinstance(v[0], dict):
@@ -52,10 +52,10 @@ def load_tables():
                     elif citas_df.empty:
                         citas_df = pd.DataFrame(v)
     elif isinstance(data, list):
-        # Archivo es una sola lista (lo tratamos como pacientes)
+        # The archive is a single list (we treat it as patients).
         pacientes_df = pd.DataFrame(data)
     else:
-        raise ValueError("Estructura JSON no reconocida.")
+        raise ValueError("Unrecognized JSON structure.")
 
     return pacientes_df, citas_df
 
@@ -70,12 +70,12 @@ def profile(df: pd.DataFrame) -> dict:
         "null_counts": df.isna().sum().to_dict(),
         "duplicates_all": int(df.duplicated().sum()),
     }
-    # Duplicados por claves comunes si existen
+    # Duplicates by common keys if they exist
     for key in ["id", "id_paciente", "idPaciente", "id_cita", "idCita"]:
         if key in df.columns:
             info[f"duplicates_by_{key}"] = int(df.duplicated(subset=[key]).sum())
             info[f"unique_{key}"] = int(df[key].nunique(dropna=True))
-    # Duplicados por combinación frecuente
+    # Duplicates due to frequent combination
     if {"nombre", "fecha_nacimiento"}.issubset(df.columns):
         info["duplicates_by_nombre_fecha"] = int(df.duplicated(subset=["nombre", "fecha_nacimiento"]).sum())
     return info
@@ -84,8 +84,8 @@ def write_report(pacientes_df, citas_df, p_info, c_info):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M")
     out = REPORTS_DIR / "exploration_report.md"
     with open(out, "w", encoding="utf-8") as f:
-        f.write(f"# Reporte de Exploración de Datos\n\n")
-        f.write(f"_Generado: {ts}_\n\n")
+        f.write(f"# Data Exploration Report\n\n")
+        f.write(f"_Generated: {ts}_\n\n")
 
         if not pacientes_df.empty:
             f.write("## Tabla: pacientes\n")
@@ -98,7 +98,7 @@ def write_report(pacientes_df, citas_df, p_info, c_info):
                     f.write(f"- {k}: {v}\n")
             f.write("\n")
         else:
-            f.write("## No se detectó tabla de pacientes.\n\n")
+            f.write("## No patient table detected.\n\n")
 
         if not citas_df.empty:
             f.write("## Tabla: citas_medicas\n")
@@ -111,27 +111,28 @@ def write_report(pacientes_df, citas_df, p_info, c_info):
                     f.write(f"- {k}: {v}\n")
             f.write("\n")
         else:
-            f.write("## No se detectó tabla de citas médicas.\n\n")
+            f.write("## No medical appointment table detected.\n\n")
 
-        f.write("> Siguiente paso: definir reglas de limpieza (fechas, sexo, edad, duplicados, integridad entre tablas).\n")
+        f.write("> Next step: define cleaning rules (dates, gender, age, duplicates, integrity between tables).\n")
 
 def main():
     print(f"Cargando JSON desde: {RAW_JSON_PATH}")
     pacientes_df, citas_df = load_tables()
 
-    # Guardar copias intermedias
+    # Save intermediate copies
     if not pacientes_df.empty:
         pacientes_df.to_csv(OUTPUT_INTERIM / "pacientes_raw.csv", index=False)
     if not citas_df.empty:
         citas_df.to_csv(OUTPUT_INTERIM / "citas_medicas_raw.csv", index=False)
 
-    # Perfil básico
+    # Basic profile
     p_info = profile(pacientes_df)
     c_info = profile(citas_df)
 
-    # Reporte
+    # Report
     write_report(pacientes_df, citas_df, p_info, c_info)
-    print("Exploración completada. Revisa 'reports/exploration_report.md' y 'data/interim/'.")
+    print("Exploration complete. Review. 'reports/exploration_report.md' y 'data/interim/'.")
 
 if __name__ == "__main__":
     main()
+
