@@ -1,4 +1,4 @@
-📊 Technical Test – Data Engineer
+📊 ETL pipeline with python
 
 This project is a example of a ETL pipeline, with the goal of analyzing, cleaning, validating, and exporting a hospital dataset originally in JSON format.
 
