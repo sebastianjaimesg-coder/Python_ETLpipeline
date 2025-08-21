@@ -20,4 +20,5 @@ citas_df.to_sql("fact_citas", conn, if_exists="replace", index=False)
 
 conn.close()
 
-print("Datos migrados a data_warehouse.db correctamente.")
+print("Data successfully migrated to data_warehouse.db")
+
