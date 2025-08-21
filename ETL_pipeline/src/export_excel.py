@@ -9,7 +9,7 @@ OUTPUT_FILE = BASE_DIR / "data" / "hospital_dataset_clean.xlsx"
 # ==========================
 
 def main():
-    # Cargar datos limpios
+    # Load clean data
     pacientes_path = CLEAN_DIR / "pacientes_clean.csv"
     citas_path = CLEAN_DIR / "citas_medicas_clean.csv"
 
@@ -20,12 +20,13 @@ def main():
     pacientes = pd.read_csv(pacientes_path)
     citas = pd.read_csv(citas_path)
 
-    # Exportar a Excel con dos hojas
+    # Export to Excel with two sheets
     with pd.ExcelWriter(OUTPUT_FILE, engine="openpyxl") as writer:
         pacientes.to_excel(writer, sheet_name="pacientes", index=False)
         citas.to_excel(writer, sheet_name="citas_medicas", index=False)
 
-    print(f"✅ Archivo Excel generado en: {OUTPUT_FILE}")
+    print(f"✅ Excel file generated in: {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()
+
