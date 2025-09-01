@@ -2,6 +2,7 @@
 
 This project is a example of a ETL pipeline, with the goal of analyzing, cleaning, validating, and exporting a hospital dataset originally in JSON format.
 
+```
 📂 Project Structure
 ETL_pipeline/
 │
@@ -23,6 +24,7 @@ ETL_pipeline/
 │
 ├─ requirements.txt
 └─ README.md
+```
 
 ⚙️ Requirements
 
