@@ -100,7 +100,7 @@ Tests executed using pytest (tests/test_data_quality.py):
   All required columns are present
 Result: All tests passed successfully.
 
-##📦 Deliverables
+## 📦 Deliverables
 Data:
 data/raw/dataset_hospital.json → Original source
 data/interim/ → Intermediate data
@@ -114,7 +114,7 @@ orphan_citas.csv
 final_report.md (this technical document)
 Scripts: explore.py, clean.py, export_excel.py, compare.py, load_to_dw.py
 
-##💡 Recommendations for Improvement
+## 💡 Recommendations for Improvement
 
 Fill in missing key fields from external sources.
 Review and correct orphan appointments.
